@@ -1,0 +1,51 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-color: #000000 ;
+}
+.input-btn{
+    display: flex;
+    position: fixed;
+    bottom: 0px;
+    background-color: rgb(15, 15, 15);
+    width: 100%;
+    height: 50px;
+    align-items: center;
+   justify-content: space-between;
+}
+button{
+    height: 2.5rem;
+    border: 2px solid whitesmoke;
+    color: #ffffff;
+    margin-right: 2px;
+    border-radius: 20%;
+    background-color: #000000;
+}
+button:hover{
+    background-color: #c0bbc2;
+    color: #000000;
+   transform: scale(1.05); /* ye chat gpt se liya h ise btn hover hone per thoda bda hota h */
+}
+input{
+    border-radius: 10px;
+    height: 2.5rem;
+    width: 100%;
+    margin-right: 5px;
+}
+.message-container{
+    background-image: url("./assets/Screenshot_2025_0624_224043.jpg");
+    background-size: contain;
+    border:2px solid black;
+    margin: auto;
+    height: calc(100vh - 120px);  /*100vh = 100% of the visible browser height(vh = viewport height) 120 for niche ka jo inputbtn are h uske liye   */
+    /* => max-height: 800px - 120px = 680px */
+    overflow: auto;
+}
+.message-container div{
+    color:#ffffff;
+    margin: 5px;
+    padding: 2px;
+    border-radius: 10px;
+    border: 1px solid #410949;
+    background-color: #333333;
+}
