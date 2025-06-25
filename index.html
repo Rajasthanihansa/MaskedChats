@@ -17,26 +17,28 @@
          <button>💨 Whoosh</button>
     </div>
 
-    <script src="script.js"></script>
-     <!-- Firebase SDKs -->
+     <!-- ✅ 1. Firebase SDKs pehle load karo -->
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
 
-<!-- Firebase Config -->
+<!-- ✅ 2. Firebase initialize karo -->
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyA44TvBMy5pjbR3QVB5q2surspeAdppBsk",
     authDomain: "fir-project-44097.firebaseapp.com",
     projectId: "fir-project-44097",
-    storageBucket: "fir-project-44097.firebasestorage.app",
+    storageBucket: "fir-project-44097.appspot.com",
     messagingSenderId: "800260220748",
-    appId: "1:800260220748:web:9e43caff897decfef151e9",
-    measurementId: "G-QLTC5P3SXW"
+    appId: "1:800260220748:web:9e43caff897decfef151e9"
   };
- // ✅ Correct initialization for HTML page
-  // Initialize Firebase (classic method)
+
+  // ✅ Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
 </script>
+
+<!-- ✅ 3. Ab apna script.js load karo -->
+<script src="script.js"></script>
+
+
 </body>
 </html>
