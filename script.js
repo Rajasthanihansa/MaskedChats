@@ -17,13 +17,33 @@ btn.addEventListener("click", function(){
   } catch (e) {
     console.error("Firebase write failed:", e);
   }
-    container.appendChild(item);
-    container.scrollTop = container.scrollHeight;// apne aap scroll hoga
+    // container.appendChild(item);
+    // container.scrollTop = container.scrollHeight;// apne aap scroll hoga
 
     inp.value="";//message sent hone ke baad input me text na rhe isliye
 
-     setTimeout(() => {
-        item.remove();
-    }, 5000000);
+    //  setTimeout(() => {
+    //     item.remove();
+    // }, 5000000);
 })
+
+firebase.database().ref("messages/").on("child_added", function(snapshot) {
+  const messageData = snapshot.val();
+  const key = snapshot.key;  // Ye add karo, firebase message ka unique key
+
+  let item = document.createElement("div");
+  item.innerText = messageData.text;
+  container.appendChild(item);
+  container.scrollTop = container.scrollHeight;
+
+  // 5 minute baad message DOM se hata do aur Firebase se bhi delete karo
+  setTimeout(() => {
+    container.removeChild(item);                  // Message page se hatao
+    firebase.database().ref("messages/" + key)   // Firebase se bhi delete karo
+      .remove()
+      .catch(err => console.error("Firebase delete failed:", err));
+  }, 300000); 
+});
+
+
 
