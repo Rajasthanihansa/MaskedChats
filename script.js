@@ -30,40 +30,29 @@ btn.addEventListener("click", function(){
     // }, 5000000);
 })
 
-firebase.database().ref("messages/").on("child_added", function(snapshot) {
-  const messageData = snapshot.val();
-  const key = snapshot.key;
+// Page load par purane messages check karo aur delete schedule karo ya turant delete karo
+firebase.database().ref("messages/").once("value").then(snapshot => {
+  snapshot.forEach(childSnapshot => {
+    const messageData = childSnapshot.val();
+    const key = childSnapshot.key;
 
-  let item = document.createElement("div");
-  item.innerText = messageData.text;
-  container.appendChild(item);
-  container.scrollTop = container.scrollHeight;
+    const currentTime = Date.now();
+    const messageTime = messageData.time || currentTime;
+    const timePassed = currentTime - messageTime;
+    const timeLeft = 300000 - timePassed;  // 5 minutes = 300000 ms
 
-  const currentTime = Date.now();
-  const messageTime = messageData.time || currentTime;
-  const timePassed = currentTime - messageTime;
-  const timeLeft = 300000 - timePassed;
-
-  if (timeLeft <= 0) {
-    // Agar message pehle ka hai, turant hata do
-    container.removeChild(item);
-    firebase.database().ref("messages/" + key).remove();
-  } else {
-    // Baaki time ke baad delete karo
-    setTimeout(() => {
-      if (item && item.parentNode === container) {
-        container.removeChild(item);
-      }
+    if (timeLeft <= 0) {
+      // Agar message expire ho chuka hai to turant delete karo
       firebase.database().ref("messages/" + key).remove()
         .catch(err => console.error("Firebase delete failed:", err));
-    }, timeLeft);
-  }
+    } else {
+      // Agar abhi expire nahi hua hai to baaki time ke baad delete schedule karo
+      setTimeout(() => {
+        firebase.database().ref("messages/" + key).remove()
+          .catch(err => console.error("Firebase delete failed:", err));
+      }, timeLeft);
+    }
+  });
 });
-// Delete old messages after 5 minutes (on page load)
-let oldMessages = document.querySelectorAll(".message");
-oldMessages.forEach(msg => {
-  setTimeout(() => msg.remove(), 5 * 60 * 1000);
-});
-
 
 
