@@ -59,6 +59,11 @@ firebase.database().ref("messages/").on("child_added", function(snapshot) {
     }, timeLeft);
   }
 });
+// Delete old messages after 5 minutes (on page load)
+let oldMessages = document.querySelectorAll(".message");
+oldMessages.forEach(msg => {
+  setTimeout(() => msg.remove(), 5 * 60 * 1000);
+});
 
 
 
