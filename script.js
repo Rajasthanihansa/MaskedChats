@@ -13,7 +13,10 @@ btn.addEventListener("click", function(){
     item.innerText=message;//inp value new div me dali
    // firebase.database().ref("messages/" + Date.now()).set({ text: message });
    try {
-    firebase.database().ref("messages/" + Date.now()).set({ text: message });
+   firebase.database().ref("messages/" + Date.now()).set({
+  text: message,
+  time: Date.now()
+});
   } catch (e) {
     console.error("Firebase write failed:", e);
   }
@@ -29,20 +32,32 @@ btn.addEventListener("click", function(){
 
 firebase.database().ref("messages/").on("child_added", function(snapshot) {
   const messageData = snapshot.val();
-  const key = snapshot.key;  // Ye add karo, firebase message ka unique key
+  const key = snapshot.key;
 
   let item = document.createElement("div");
   item.innerText = messageData.text;
   container.appendChild(item);
   container.scrollTop = container.scrollHeight;
 
-  // 5 minute baad message DOM se hata do aur Firebase se bhi delete karo
-  setTimeout(() => {
-    container.removeChild(item);                  // Message page se hatao
-    firebase.database().ref("messages/" + key)   // Firebase se bhi delete karo
-      .remove()
-      .catch(err => console.error("Firebase delete failed:", err));
-  }, 300000); 
+  const currentTime = Date.now();
+  const messageTime = messageData.time || currentTime;
+  const timePassed = currentTime - messageTime;
+  const timeLeft = 300000 - timePassed;
+
+  if (timeLeft <= 0) {
+    // Agar message pehle ka hai, turant hata do
+    container.removeChild(item);
+    firebase.database().ref("messages/" + key).remove();
+  } else {
+    // Baaki time ke baad delete karo
+    setTimeout(() => {
+      if (item && item.parentNode === container) {
+        container.removeChild(item);
+      }
+      firebase.database().ref("messages/" + key).remove()
+        .catch(err => console.error("Firebase delete failed:", err));
+    }, timeLeft);
+  }
 });
 
 
