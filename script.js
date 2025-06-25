@@ -11,7 +11,12 @@ btn.addEventListener("click", function(){
     
     let item=document.createElement("div");//new div item create kiya
     item.innerText=message;//inp value new div me dali
+   // firebase.database().ref("messages/" + Date.now()).set({ text: message });
+   try {
     firebase.database().ref("messages/" + Date.now()).set({ text: message });
+  } catch (e) {
+    console.error("Firebase write failed:", e);
+  }
     container.appendChild(item);
     container.scrollTop = container.scrollHeight;// apne aap scroll hoga
 
