@@ -18,5 +18,25 @@
     </div>
 
     <script src="script.js"></script>
+     <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+
+<!-- Firebase Config -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA44TvBMy5pjbR3QVB5q2surspeAdppBsk",
+    authDomain: "fir-project-44097.firebaseapp.com",
+    projectId: "fir-project-44097",
+    storageBucket: "fir-project-44097.firebasestorage.app",
+    messagingSenderId: "800260220748",
+    appId: "1:800260220748:web:9e43caff897decfef151e9",
+    measurementId: "G-QLTC5P3SXW"
+  };
+ // ✅ Correct initialization for HTML page
+  // Initialize Firebase (classic method)
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
 </body>
 </html>

@@ -6,9 +6,12 @@ btn.addEventListener("click", function(){
 
     console.log("btn clicked");
     let message=inp.value;
-    console.log(message);
+   
+    if (message === "") return;  // ✅ agar khali hai to return (kuch bhi mat karo)
+    
     let item=document.createElement("div");//new div item create kiya
-    item.innerText=inp.value;//inp value new div me dali
+    item.innerText=message;//inp value new div me dali
+    firebase.database().ref("messages/" + Date.now()).set({ text: message });
     container.appendChild(item);
     container.scrollTop = container.scrollHeight;// apne aap scroll hoga
 
